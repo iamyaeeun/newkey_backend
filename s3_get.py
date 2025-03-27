@@ -1,3 +1,63 @@
+# 육하원칙 조사/어미 등 수정 함수
+def modify_answer(answer, index):
+    sentences = answer.split('. ')
+    if len(sentences) > 1:
+        answer = sentences[1]
+    if answer.endswith('.'):
+        answer = answer[:-1]
+    if '주체는 ' in answer:
+        answer = answer.split('주체는 ')[1]
+    answer = answer.replace("이 기사는 ", "")
+    answer = answer.split('이다')[0].strip()
+    answer = answer.split('되었음')[0].strip()
+    answer = answer.split('입니다')[0].strip()
+    if '됩' in answer:
+        answer = answer.split('됩')[0].strip() + '됨'
+    if '됐' in answer:
+        answer = answer.split('됐')[0].strip() + '됨'
+    if '된' in answer:
+        answer = answer.split('된')[0].strip() + '됨'
+    if '했' in answer:
+        answer = answer.split('했')[0].strip() + '함'
+    if '하였' in answer:
+        answer = answer.split('하였')[0].strip() + '함'
+    answer = answer.split('되었')[0].strip()
+    answer = answer.split('합니다')[0].strip()
+    if answer.endswith('목적으로'):
+        answer = answer.split('목적으로')[0].strip() + ' 목적으로'
+    if answer.endswith('때문에'):
+        answer = answer.split('때문에')[0].strip() + ' 때문에'
+    if answer.endswith('습니다'):
+        answer = answer.split('습니다')[0].strip() + '음'
+    # 누가
+    if index == 0:
+        answer = answer.split('이 ')[0].strip()
+        answer = answer.split('가 ')[0].strip()
+    # 언제
+    if index == 1:
+        answer = answer.split('에서')[0].strip()
+        answer = answer.split('에 ')[0].strip()
+        if '은 ' in answer:
+            answer = answer.split('은 ')[1].strip()
+        if '는 ' in answer:
+            answer = answer.split('는 ')[1].strip()
+        if '일' in answer:
+            answer = answer.split('일')[0].strip() + '일'
+    if index == 2:
+        answer = answer.split('에서')[0].strip()
+        if '은 ' in answer:
+            answer = answer.split('은 ')[1].strip()
+        if '는 ' in answer:
+            answer = answer.split('는 ')[1].strip()
+    if index == 4:
+        if '위해' in answer:
+            answer = answer.split('위해')[0].strip() + ' 위해'
+    if answer.endswith('다'):
+        answer = answer.split('다')[0].strip() + '음'
+
+    return answer
+    
+
 class ChatGPT:
     def __init__(self, summary_content):
         self.content = f"Content: {summary_content}"
